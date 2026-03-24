@@ -1,0 +1,73 @@
+# Dependencies
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+.pnpm-debug.log*
+
+# Package manager locks (keep one, ignore others if using specific one)
+# Uncomment the one you're NOT using:
+# yarn.lock
+# pnpm-lock.yaml
+# package-lock.json
+
+# Next.js build output
+.next/
+out/
+dist/
+
+# Production build files
+build/
+
+# Environment variables
+.env
+.env.local
+.env.*.local
+.env.development
+.env.test
+.env.production
+.env*.local
+
+# Debug logs
+logs
+*.log
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+desktop.ini
+
+# IDE files
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+.project
+.classpath
+.settings/
+
+# Testing
+coverage/
+.nyc_output/
+
+# Vercel
+.vercel
+
+# Turborepo
+.turbo
+
+# TypeScript
+*.tsbuildinfo
+next-env.d.ts
+
+# Optional: PWA generated files
+public/sw.js
+public/workbox-*.js
+public/worker-*.js

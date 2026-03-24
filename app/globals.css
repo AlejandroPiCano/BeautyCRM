@@ -1,0 +1,162 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 0 0% 100%;
+    --foreground: 222 47% 11%;
+    --card: 0 0% 100%;
+    --card-foreground: 222 47% 11%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 222 47% 11%;
+    --primary: 221 83% 53%;
+    --primary-foreground: 210 40% 98%;
+    --secondary: 210 40% 96%;
+    --secondary-foreground: 222 47% 11%;
+    --muted: 210 40% 96%;
+    --muted-foreground: 215 16% 47%;
+    --accent: 210 40% 96%;
+    --accent-foreground: 222 47% 11%;
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 210 40% 98%;
+    --border: 214 32% 91%;
+    --input: 214 32% 91%;
+    --ring: 221 83% 53%;
+    --radius: 0.5rem;
+
+    --sidebar-bg: 222 47% 11%;
+    --sidebar-fg: 210 40% 96%;
+    --sidebar-accent: 221 83% 63%;
+    --sidebar-border: 217 33% 17%;
+  }
+
+  .dark {
+    --background: 222 47% 7%;
+    --foreground: 210 40% 98%;
+    --card: 222 47% 9%;
+    --card-foreground: 210 40% 98%;
+    --popover: 222 47% 9%;
+    --popover-foreground: 210 40% 98%;
+    --primary: 221 83% 63%;
+    --primary-foreground: 222 47% 11%;
+    --secondary: 217 33% 17%;
+    --secondary-foreground: 210 40% 98%;
+    --muted: 217 33% 17%;
+    --muted-foreground: 215 20% 65%;
+    --accent: 217 33% 17%;
+    --accent-foreground: 210 40% 98%;
+    --destructive: 0 62% 50%;
+    --destructive-foreground: 210 40% 98%;
+    --border: 217 33% 17%;
+    --input: 217 33% 17%;
+    --ring: 221 83% 63%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground antialiased;
+    font-feature-settings: "rlig" 1, "calt" 1;
+  }
+  h1, h2, h3, h4, h5, h6 {
+    @apply tracking-tight;
+  }
+  :focus-visible {
+    @apply outline-none ring-2 ring-ring ring-offset-2 ring-offset-background;
+  }
+}
+
+@layer utilities {
+  .visually-hidden {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+  }
+
+  .scrollbar-thin {
+    scrollbar-width: thin;
+    scrollbar-color: hsl(var(--border)) transparent;
+  }
+
+  .scrollbar-thin::-webkit-scrollbar {
+    width: 6px;
+  }
+
+  .scrollbar-thin::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  .scrollbar-thin::-webkit-scrollbar-thumb {
+    background-color: hsl(var(--border));
+    border-radius: 3px;
+  }
+}
+
+/* react-big-calendar overrides */
+.rbc-calendar {
+  @apply text-sm;
+}
+.rbc-header {
+  @apply border-border py-2 text-xs font-medium text-muted-foreground uppercase tracking-wider;
+}
+.rbc-header + .rbc-header {
+  @apply border-border;
+}
+.rbc-day-bg + .rbc-day-bg {
+  @apply border-border;
+}
+.rbc-month-row + .rbc-month-row {
+  @apply border-border;
+}
+.rbc-month-view {
+  @apply border-border rounded-lg overflow-hidden;
+}
+.rbc-today {
+  @apply bg-blue-50/60 dark:bg-blue-950/20;
+}
+.rbc-event {
+  @apply rounded-md px-1.5 py-0.5 text-xs font-medium border-0 shadow-xs;
+}
+.rbc-event.rbc-selected {
+  @apply ring-2 ring-primary ring-offset-1;
+}
+.rbc-show-more {
+  @apply text-xs text-primary font-medium;
+}
+.rbc-toolbar {
+  @apply mb-4 gap-2;
+}
+.rbc-toolbar button {
+  @apply rounded-md border border-border bg-background px-3 py-1.5 text-sm hover:bg-accent transition-colors;
+}
+.rbc-toolbar button.rbc-active {
+  @apply bg-primary text-primary-foreground border-primary;
+}
+.rbc-time-view {
+  @apply border-border rounded-lg overflow-hidden;
+}
+.rbc-time-header-content {
+  @apply border-border;
+}
+.rbc-time-content {
+  @apply border-border;
+}
+.rbc-timeslot-group {
+  @apply border-border;
+}
+.rbc-time-slot {
+  @apply border-border;
+}
+.rbc-label {
+  @apply text-xs text-muted-foreground;
+}
