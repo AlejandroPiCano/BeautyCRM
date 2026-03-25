@@ -108,13 +108,16 @@ export async function createCita(formData: unknown) {
     return { error: parsed.error.flatten().fieldErrors };
   }
 
+  const { fecha, hora, ...rest } = parsed.data;
+  const fechaHora = new Date(`${fecha}T${hora}`);
+
   const [newCita] = await db
     .insert(citas)
     .values({
-      ...parsed.data,
-      fecha: new Date(parsed.data.fecha),
-      staffId: parsed.data.staffId ?? null,
-      tipoTratamientoId: parsed.data.tipoTratamientoId ?? null,
+      ...rest,
+      fecha: fechaHora,
+      staffId: rest.staffId ?? null,
+      tipoTratamientoId: rest.tipoTratamientoId ?? null,
     })
     .returning();
 
@@ -134,13 +137,16 @@ export async function updateCita(id: string, formData: unknown) {
     return { error: parsed.error.flatten().fieldErrors };
   }
 
+  const { fecha, hora, ...rest } = parsed.data;
+  const fechaHora = new Date(`${fecha}T${hora}`);
+
   const [updated] = await db
     .update(citas)
     .set({
-      ...parsed.data,
-      fecha: new Date(parsed.data.fecha),
-      staffId: parsed.data.staffId ?? null,
-      tipoTratamientoId: parsed.data.tipoTratamientoId ?? null,
+      ...rest,
+      fecha: fechaHora,
+      staffId: rest.staffId ?? null,
+      tipoTratamientoId: rest.tipoTratamientoId ?? null,
       updatedAt: new Date(),
     })
     .where(eq(citas.id, id))

@@ -73,6 +73,7 @@ export const citaSchema = z.object({
   staffId: z.string().uuid().optional(),
   tipoTratamientoId: z.string().uuid().optional(),
   fecha: z.string().min(1, "Fecha requerida"),
+  hora: z.string().min(1, "Hora requerida"),
   duracionMin: z.number().int().min(15).max(480).default(60),
   tipo: z.enum(citaTipoValues).default("consulta"),
   status: z.enum(citaStatusValues).default("pendiente"),

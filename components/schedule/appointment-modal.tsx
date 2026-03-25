@@ -77,10 +77,12 @@ export function AppointmentModal({
 
   useEffect(() => {
     if (appointment) {
+      const appointmentDate = new Date(appointment.fecha);
       reset({
         pacienteId: appointment.pacienteId,
         staffId: appointment.staffId ?? undefined,
-        fecha: format(new Date(appointment.fecha), "yyyy-MM-dd'T'HH:mm"),
+        fecha: format(appointmentDate, "yyyy-MM-dd"),
+        hora: format(appointmentDate, "HH:mm"),
         duracionMin: appointment.duracionMin,
         tipo: appointment.tipo as AppointmentFormData["tipo"],
         status: appointment.status as AppointmentFormData["status"],
@@ -91,7 +93,8 @@ export function AppointmentModal({
         tipo: "consulta",
         status: "pendiente",
         duracionMin: 60,
-        fecha: format(initialSlot.start, "yyyy-MM-dd'T'HH:mm"),
+        fecha: format(initialSlot.start, "yyyy-MM-dd"),
+        hora: format(initialSlot.start, "HH:mm"),
       });
     } else {
       reset({ tipo: "consulta", status: "pendiente", duracionMin: 60 });
@@ -196,37 +199,60 @@ export function AppointmentModal({
             )}
           </div>
 
-          {/* Date + Duration */}
+          {/* Date + Time */}
           <div className="grid grid-cols-2 gap-3">
             <div className="space-y-1.5">
               <label htmlFor="c-date" className="text-sm font-medium text-foreground">
-                Fecha y hora <span aria-hidden="true" className="text-destructive">*</span>
+                Fecha <span aria-hidden="true" className="text-destructive">*</span>
               </label>
               <input
                 {...register("fecha")}
                 id="c-date"
-                type="datetime-local"
+                type="date"
                 aria-invalid={!!errors.fecha}
                 className={cn(
                   "w-full rounded-lg border bg-background px-3.5 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-ring",
                   errors.fecha ? "border-destructive" : "border-input"
                 )}
               />
+              {errors.fecha && (
+                <p role="alert" className="text-xs text-destructive">{errors.fecha.message}</p>
+              )}
             </div>
             <div className="space-y-1.5">
-              <label htmlFor="c-duration" className="text-sm font-medium text-foreground">
-                Duración (min)
+              <label htmlFor="c-time" className="text-sm font-medium text-foreground">
+                Hora <span aria-hidden="true" className="text-destructive">*</span>
               </label>
               <input
-                {...register("duracionMin", { valueAsNumber: true })}
-                id="c-duration"
-                type="number"
-                min={15}
-                max={480}
-                step={15}
-                className="w-full rounded-lg border border-input bg-background px-3.5 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-ring"
+                {...register("hora")}
+                id="c-time"
+                type="time"
+                aria-invalid={!!errors.hora}
+                className={cn(
+                  "w-full rounded-lg border bg-background px-3.5 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-ring",
+                  errors.hora ? "border-destructive" : "border-input"
+                )}
               />
+              {errors.hora && (
+                <p role="alert" className="text-xs text-destructive">{errors.hora.message}</p>
+              )}
             </div>
+          </div>
+
+          {/* Duration */}
+          <div className="space-y-1.5">
+            <label htmlFor="c-duration" className="text-sm font-medium text-foreground">
+              Duración (min)
+            </label>
+            <input
+              {...register("duracionMin", { valueAsNumber: true })}
+              id="c-duration"
+              type="number"
+              min={15}
+              max={480}
+              step={15}
+              className="w-full rounded-lg border border-input bg-background px-3.5 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-ring"
+            />
           </div>
 
           {/* Type + Status */}
