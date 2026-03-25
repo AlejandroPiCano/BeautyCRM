@@ -21,7 +21,7 @@ export default async function SchedulePage({ searchParams }: PageProps) {
   return (
     <>
       <Header title="Agenda" />
-      <div className="p-6 animate-fade-in">
+      <div className="p-4 sm:p-6 animate-fade-in">
         <ScheduleCalendar
           staffList={staffList}
           treatmentTypes={treatmentTypes}

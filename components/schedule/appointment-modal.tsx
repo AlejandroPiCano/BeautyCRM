@@ -117,7 +117,7 @@ export function AppointmentModal({
         onClick={onClose}
         aria-hidden="true"
       />
-      <div className="relative bg-card border border-border rounded-xl shadow-lg w-full max-w-lg animate-fade-in max-h-[90vh] overflow-y-auto scrollbar-thin">
+      <div className="relative bg-card border border-border rounded-xl shadow-lg w-full max-w-2xl animate-fade-in max-h-[90vh] overflow-y-auto scrollbar-thin mx-2 sm:mx-0">
         {/* Header */}
         <div className="flex items-center justify-between px-6 py-4 border-b border-border sticky top-0 bg-card z-10">
           <div className="flex items-center gap-2">

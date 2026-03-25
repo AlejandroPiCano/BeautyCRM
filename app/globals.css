@@ -160,3 +160,25 @@
 .rbc-label {
   @apply text-xs text-muted-foreground;
 }
+
+/* Mobile responsive improvements */
+@media (max-width: 640px) {
+  .rbc-toolbar {
+    @apply flex-col items-stretch;
+  }
+  .rbc-toolbar-label {
+    @apply text-center mb-2;
+  }
+  .rbc-btn-group {
+    @apply flex justify-center gap-1;
+  }
+  .rbc-toolbar button {
+    @apply px-2 py-1 text-xs;
+  }
+  .rbc-event {
+    @apply text-[10px] px-1 py-0;
+  }
+  .rbc-header {
+    @apply text-[10px] py-1;
+  }
+}

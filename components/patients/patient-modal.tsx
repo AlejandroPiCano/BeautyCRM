@@ -67,7 +67,7 @@ export function PatientModal({ open, patient, onClose, onSubmit }: Props) {
       />
       <div className="relative bg-card border border-border rounded-xl shadow-lg w-full max-w-lg animate-fade-in max-h-[90vh] overflow-y-auto scrollbar-thin">
         {/* Header */}
-        <div className="flex items-center justify-between px-6 py-4 border-b border-border sticky top-0 bg-card z-10">
+        <div className="flex items-center justify-between px-4 sm:px-6 py-4 border-b border-border sticky top-0 bg-card z-10">
           <h2 id="patient-modal-title" className="font-semibold text-foreground">
             {patient ? "Editar paciente" : "Nuevo paciente"}
           </h2>
@@ -81,7 +81,7 @@ export function PatientModal({ open, patient, onClose, onSubmit }: Props) {
         </div>
 
         {/* Form */}
-        <form onSubmit={handleSubmit(handleFormSubmit)} className="px-6 py-5 space-y-4" noValidate>
+        <form onSubmit={handleSubmit(handleFormSubmit)} className="px-4 sm:px-6 py-5 space-y-4" noValidate>
           {/* Nombre */}
           <div className="space-y-1.5">
             <label htmlFor="p-nombre" className="text-sm font-medium text-foreground">
@@ -107,7 +107,7 @@ export function PatientModal({ open, patient, onClose, onSubmit }: Props) {
           </div>
 
           {/* Email + Teléfono */}
-          <div className="grid grid-cols-2 gap-3">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
             <div className="space-y-1.5">
               <label htmlFor="p-email" className="text-sm font-medium text-foreground">
                 Email
@@ -139,7 +139,7 @@ export function PatientModal({ open, patient, onClose, onSubmit }: Props) {
           </div>
 
           {/* Fecha nacimiento + Origen */}
-          <div className="grid grid-cols-2 gap-3">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
             <div className="space-y-1.5">
               <label htmlFor="p-nacimiento" className="text-sm font-medium text-foreground">
                 Fecha de nacimiento

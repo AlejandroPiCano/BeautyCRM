@@ -177,13 +177,13 @@ export function ScheduleCalendar({ staffList, treatmentTypes, patients, openNew 
   return (
     <div className="space-y-4">
       {/* Toolbar */}
-      <div className="flex items-center justify-between">
-        <div className="flex items-center gap-3">
-          <div className="flex gap-1.5 flex-wrap">
+      <div className="flex flex-col sm:flex-row gap-3 sm:items-center sm:justify-between">
+        <div className="flex items-center gap-3 overflow-x-auto">
+          <div className="flex gap-1.5 flex-nowrap sm:flex-wrap">
             {Object.entries(statusColors).map(([status, color]) => (
-              <span key={status} className="flex items-center gap-1 text-xs text-muted-foreground">
+              <span key={status} className="flex items-center gap-1 text-xs text-muted-foreground whitespace-nowrap">
                 <span className="w-2.5 h-2.5 rounded-sm flex-shrink-0" style={{ backgroundColor: color }} aria-hidden="true" />
-                {status.charAt(0).toUpperCase() + status.slice(1)}
+                <span className="hidden sm:inline">{status.charAt(0).toUpperCase() + status.slice(1)}</span>
               </span>
             ))}
           </div>
@@ -191,15 +191,15 @@ export function ScheduleCalendar({ staffList, treatmentTypes, patients, openNew 
         <button
           onClick={() => { setSelectedAppointment(null); setNewEventSlot(null); setModalOpen(true); }}
           aria-label="Nueva cita"
-          className="flex items-center gap-1.5 rounded-lg bg-primary text-primary-foreground px-3.5 py-2 text-sm font-medium hover:bg-primary/90 transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2"
+          className="flex items-center justify-center gap-1.5 rounded-lg bg-primary text-primary-foreground px-3.5 py-2 text-sm font-medium hover:bg-primary/90 transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 flex-shrink-0"
         >
           <Plus className="w-4 h-4" aria-hidden="true" />
-          Nueva cita
+          <span className="sm:inline">Nueva cita</span>
         </button>
       </div>
 
       {/* Calendar */}
-      <div className="bg-card border border-border rounded-xl overflow-hidden shadow-xs p-4">
+      <div className="bg-card border border-border rounded-xl overflow-hidden shadow-xs p-2 sm:p-4">
         <Calendar
           localizer={localizer}
           events={events}
@@ -215,7 +215,7 @@ export function ScheduleCalendar({ staffList, treatmentTypes, patients, openNew 
           eventPropGetter={eventStyleGetter}
           messages={messages}
           culture="es"
-          style={{ height: 640 }}
+          style={{ height: typeof window !== 'undefined' && window.innerWidth < 640 ? 500 : 640 }}
           step={30}
           timeslots={2}
           aria-label="Calendario de citas"

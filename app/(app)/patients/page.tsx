@@ -19,7 +19,7 @@ export default async function PatientsPage({ searchParams }: PageProps) {
   return (
     <>
       <Header title="Pacientes" />
-      <div className="p-6 space-y-5 animate-fade-in">
+      <div className="p-4 sm:p-6 space-y-4 sm:space-y-5 animate-fade-in">
         <Suspense key={`${search}-${page}`} fallback={<TableSkeleton />}>
           <PatientsLoader search={search} page={page} openNew={params.new === "1"} />
         </Suspense>

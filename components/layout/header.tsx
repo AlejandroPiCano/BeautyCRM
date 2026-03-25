@@ -24,9 +24,9 @@ export function Header({ title }: { title?: string }) {
   }, []);
 
   return (
-    <header className="h-14 border-b border-border bg-background/80 backdrop-blur-sm flex items-center justify-between px-6 sticky top-0 z-10">
+    <header className="h-14 border-b border-border bg-background/80 backdrop-blur-sm flex items-center justify-between px-4 sm:px-6 sticky top-0 z-20">
       {title && (
-        <h1 className="text-base font-semibold text-foreground">{title}</h1>
+        <h1 className="text-base font-semibold text-foreground ml-12 lg:ml-0">{title}</h1>
       )}
       <div className="ml-auto flex items-center gap-2">
         {/* Theme toggle */}

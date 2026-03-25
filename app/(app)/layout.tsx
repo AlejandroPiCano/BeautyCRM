@@ -1,6 +1,6 @@
 import { auth } from "@/lib/auth";
 import { redirect } from "next/navigation";
-import { Sidebar } from "@/components/layout/sidebar";
+import { AppLayoutClient } from "@/components/layout/app-layout-client";
 import { SessionProvider } from "next-auth/react";
 
 export default async function AppLayout({
@@ -13,18 +13,7 @@ export default async function AppLayout({
 
   return (
     <SessionProvider session={session}>
-      <div className="flex h-screen overflow-hidden bg-background">
-        <Sidebar />
-        <div className="flex-1 flex flex-col min-w-0 overflow-hidden">
-          <main
-            id="main-content"
-            className="flex-1 overflow-y-auto scrollbar-thin"
-            tabIndex={-1}
-          >
-            {children}
-          </main>
-        </div>
-      </div>
+      <AppLayoutClient>{children}</AppLayoutClient>
     </SessionProvider>
   );
 }

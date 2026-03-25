@@ -9,9 +9,10 @@ import {
   Settings,
   Sparkles,
   ChevronLeft,
+  X,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 const navItems = [
   {
@@ -36,18 +37,40 @@ const navItems = [
   },
 ];
 
-export function Sidebar() {
+export function Sidebar({ mobileOpen, onMobileClose }: { mobileOpen?: boolean; onMobileClose?: () => void }) {
   const pathname = usePathname();
   const [collapsed, setCollapsed] = useState(false);
 
+  useEffect(() => {
+    if (mobileOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = '';
+    }
+    return () => { document.body.style.overflow = ''; };
+  }, [mobileOpen]);
+
   return (
-    <aside
-      className={cn(
-        "relative flex flex-col h-screen bg-slate-900 border-r border-slate-800 transition-all duration-300 ease-in-out",
-        collapsed ? "w-16" : "w-60"
+    <>
+      {/* Mobile overlay */}
+      {mobileOpen && (
+        <div
+          className="fixed inset-0 bg-black/50 backdrop-blur-sm z-40 lg:hidden"
+          onClick={onMobileClose}
+          aria-hidden="true"
+        />
       )}
-      aria-label="Navegación principal"
-    >
+
+      {/* Sidebar */}
+      <aside
+        className={cn(
+          "fixed lg:relative flex flex-col h-screen bg-slate-900 border-r border-slate-800 transition-all duration-300 ease-in-out z-50",
+          collapsed ? "w-16" : "w-60",
+          // Mobile: controlled by mobileOpen state
+          mobileOpen ? "translate-x-0" : "-translate-x-full lg:translate-x-0"
+        )}
+        aria-label="Navegación principal"
+      >
       {/* Logo */}
       <div
         className={cn(
@@ -55,6 +78,14 @@ export function Sidebar() {
           collapsed && "justify-center px-0"
         )}
       >
+        {/* Mobile close button */}
+        <button
+          onClick={onMobileClose}
+          className="lg:hidden absolute right-4 top-5 text-slate-400 hover:text-white transition-colors"
+          aria-label="Cerrar menú"
+        >
+          <X className="w-5 h-5" aria-hidden="true" />
+        </button>
         <div className="w-8 h-8 bg-gradient-to-br from-blue-400 to-emerald-400 rounded-lg flex items-center justify-center flex-shrink-0">
           <Sparkles className="w-4 h-4 text-white" aria-hidden="true" />
         </div>
@@ -76,6 +107,7 @@ export function Sidebar() {
             <Link
               key={href}
               href={href}
+              onClick={() => onMobileClose?.()}
               aria-current={active ? "page" : undefined}
               aria-label={collapsed ? label : undefined}
               className={cn(
@@ -101,8 +133,8 @@ export function Sidebar() {
         })}
       </nav>
 
-      {/* Collapse toggle */}
-      <div className="px-2 pb-4">
+      {/* Collapse toggle - desktop only */}
+      <div className="px-2 pb-4 hidden lg:block">
         <button
           onClick={() => setCollapsed(!collapsed)}
           aria-label={collapsed ? "Expandir menú" : "Colapsar menú"}
@@ -122,5 +154,6 @@ export function Sidebar() {
         </button>
       </div>
     </aside>
+    </>
   );
 }

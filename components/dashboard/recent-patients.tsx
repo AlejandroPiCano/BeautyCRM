@@ -37,7 +37,7 @@ export function RecentPatients({ patients }: { patients: Patient[] }) {
             <li key={p.id}>
               <Link
                 href={`/patients/${p.id}`}
-                className="flex items-center gap-3 px-5 py-3.5 hover:bg-accent/40 transition-colors"
+                className="flex items-center gap-3 px-4 sm:px-5 py-3.5 hover:bg-accent/40 transition-colors"
               >
                 <div className="w-8 h-8 rounded-full bg-gradient-to-br from-blue-400 to-emerald-400 flex items-center justify-center text-white text-xs font-semibold flex-shrink-0">
                   {p.avatarUrl ? (
@@ -61,7 +61,7 @@ export function RecentPatients({ patients }: { patients: Patient[] }) {
                 </div>
                 <time
                   dateTime={p.createdAt.toISOString()}
-                  className="text-xs text-muted-foreground flex-shrink-0"
+                  className="text-xs text-muted-foreground flex-shrink-0 hidden sm:block"
                 >
                   {formatDate(p.createdAt)}
                 </time>

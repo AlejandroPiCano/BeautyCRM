@@ -34,7 +34,7 @@ export default async function PatientDetailPage({
   return (
     <>
       <Header />
-      <div className="p-6 space-y-6 animate-fade-in">
+      <div className="p-4 sm:p-6 space-y-4 sm:space-y-6 animate-fade-in">
         {/* Back + Title */}
         <div className="flex items-center gap-3">
           <Link
@@ -47,7 +47,7 @@ export default async function PatientDetailPage({
           <h1 className="text-lg font-semibold text-foreground">{paciente.nombre}</h1>
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 sm:gap-6">
           {/* Left: Profile card */}
           <div className="space-y-4">
             <div className="bg-card border border-border rounded-xl p-5 shadow-xs">
