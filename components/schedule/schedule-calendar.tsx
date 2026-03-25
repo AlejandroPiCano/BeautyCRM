@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useCallback } from "react";
+import { useState, useCallback, useRef, useEffect } from "react";
 import { Calendar, dateFnsLocalizer, type View } from "react-big-calendar";
 import { format, parse, startOfWeek, getDay, addMinutes } from "date-fns";
 import { es } from "date-fns/locale";
@@ -91,6 +91,103 @@ export function ScheduleCalendar({ staffList, treatmentTypes, patients, openNew 
   const [modalOpen, setModalOpen] = useState(openNew);
   const [selectedAppointment, setSelectedAppointment] = useState<CalendarAppointment | null>(null);
   const [newEventSlot, setNewEventSlot] = useState<{ start: Date; end: Date } | null>(null);
+  const [drilldownDate, setDrilldownDate] = useState<Date | null>(null);
+  const calendarContainerRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const container = calendarContainerRef.current;
+    if (!container) return;
+
+    if (view === "day" || view === "week") {
+      const handleTouchEnd = (e: TouchEvent) => {
+        const target = e.target as HTMLElement;
+        if (target.closest(".rbc-event")) return;
+
+        const touch = e.changedTouches[0];
+        if (!touch) return;
+
+        const timeContent = container.querySelector(".rbc-time-content") as HTMLElement | null;
+        if (!timeContent) return;
+
+        const rect = timeContent.getBoundingClientRect();
+        const y = touch.clientY - rect.top + timeContent.scrollTop;
+        const ratio = Math.max(0, Math.min(1, y / timeContent.scrollHeight));
+        const totalMinutes = ratio * 24 * 60;
+        const hours = Math.floor(totalMinutes / 60);
+        const minutes = Math.floor((totalMinutes % 60) / 30) * 30;
+
+        let touchedDate = new Date(date);
+
+        if (view === "week") {
+          const daySlots = container.querySelectorAll(".rbc-day-slot");
+          const timeContentRect = timeContent.getBoundingClientRect();
+          const x = touch.clientX - timeContentRect.left;
+          const dayIndex = Math.floor((x / timeContentRect.width) * daySlots.length);
+          const startOfWeekDate = new Date(date);
+          startOfWeekDate.setDate(date.getDate() - ((date.getDay() + 6) % 7) + dayIndex);
+          touchedDate = startOfWeekDate;
+        }
+
+        touchedDate.setHours(hours, minutes, 0, 0);
+        setNewEventSlot({ start: new Date(touchedDate), end: addMinutes(touchedDate, 60) });
+        setSelectedAppointment(null);
+        setModalOpen(true);
+        setDrilldownDate(null);
+      };
+
+      const daySlots = container.querySelectorAll(".rbc-day-slot");
+      daySlots.forEach((slot) => slot.addEventListener("touchend", handleTouchEnd as EventListener));
+      return () => {
+        daySlots.forEach((slot) => slot.removeEventListener("touchend", handleTouchEnd as EventListener));
+      };
+    }
+
+    if (view === "month") {
+      const handleMonthTouchEnd = (e: TouchEvent) => {
+        const target = e.target as HTMLElement;
+        if (target.closest(".rbc-event") || target.closest(".rbc-show-more") || target.closest(".rbc-date-cell")) return;
+
+        const touch = e.changedTouches[0];
+        if (!touch) return;
+
+        const monthView = container.querySelector(".rbc-month-view") as HTMLElement | null;
+        if (!monthView) return;
+
+        const rows = Array.from(monthView.querySelectorAll(".rbc-month-row"));
+        if (!rows.length) return;
+
+        const touchedRowIndex = rows.findIndex((row) => {
+          const rect = row.getBoundingClientRect();
+          return touch.clientY >= rect.top && touch.clientY <= rect.bottom;
+        });
+        if (touchedRowIndex === -1) return;
+
+        const monthViewRect = monthView.getBoundingClientRect();
+        const x = touch.clientX - monthViewRect.left;
+        const colIndex = Math.min(6, Math.floor((x / monthViewRect.width) * 7));
+
+        const firstDayOfMonth = new Date(date.getFullYear(), date.getMonth(), 1);
+        const daysFromMonday = (firstDayOfMonth.getDay() + 6) % 7;
+        const viewStart = new Date(firstDayOfMonth);
+        viewStart.setDate(viewStart.getDate() - daysFromMonday);
+
+        const clickedDate = new Date(viewStart);
+        clickedDate.setDate(viewStart.getDate() + touchedRowIndex * 7 + colIndex);
+        clickedDate.setHours(9, 0, 0, 0);
+
+        setNewEventSlot({ start: new Date(clickedDate), end: addMinutes(clickedDate, 60) });
+        setSelectedAppointment(null);
+        setModalOpen(true);
+        setDrilldownDate(null);
+      };
+
+      const monthView = container.querySelector(".rbc-month-view");
+      if (monthView) {
+        monthView.addEventListener("touchend", handleMonthTouchEnd as EventListener);
+        return () => monthView.removeEventListener("touchend", handleMonthTouchEnd as EventListener);
+      }
+    }
+  }, [view, date]);
 
   const { data: appointments = [], refetch } = useQuery({
     queryKey: ["appointments", date.getFullYear(), date.getMonth()],
@@ -118,13 +215,32 @@ export function ScheduleCalendar({ staffList, treatmentTypes, patients, openNew 
     setNewEventSlot({ start, end });
     setSelectedAppointment(null);
     setModalOpen(true);
+    setDrilldownDate(null);
   }, []);
 
   const handleSelectEvent = useCallback((event: CalendarEvent) => {
     setSelectedAppointment(event.resource);
     setNewEventSlot(null);
     setModalOpen(true);
+    setDrilldownDate(null);
   }, []);
+
+  const handleDrillDown = useCallback((date: Date) => {
+    setDrilldownDate(date);
+  }, []);
+
+  const handleViewChange = useCallback((newView: View) => {
+    setView(newView);
+    if (newView === "day" && drilldownDate) {
+      const now = new Date();
+      const defaultStart = new Date(drilldownDate);
+      defaultStart.setHours(now.getHours(), now.getMinutes(), 0, 0);
+      setNewEventSlot({ start: defaultStart, end: addMinutes(defaultStart, 60) });
+      setSelectedAppointment(null);
+      setModalOpen(true);
+      setDrilldownDate(null);
+    }
+  }, [drilldownDate]);
 
   const handleCreateAppointment = async (data: unknown) => {
     const result = await createAppointment(data);
@@ -189,7 +305,14 @@ export function ScheduleCalendar({ staffList, treatmentTypes, patients, openNew 
           </div>
         </div>
         <button
-          onClick={() => { setSelectedAppointment(null); setNewEventSlot(null); setModalOpen(true); }}
+          onClick={() => { 
+            setSelectedAppointment(null); 
+            const now = new Date();
+            const defaultStart = new Date(date);
+            defaultStart.setHours(now.getHours(), now.getMinutes(), 0, 0);
+            setNewEventSlot({ start: defaultStart, end: addMinutes(defaultStart, 60) }); 
+            setModalOpen(true); 
+          }}
           aria-label="Nueva cita"
           className="flex items-center justify-center gap-1.5 rounded-lg bg-primary text-primary-foreground px-3.5 py-2 text-sm font-medium hover:bg-primary/90 transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 flex-shrink-0"
         >
@@ -199,16 +322,17 @@ export function ScheduleCalendar({ staffList, treatmentTypes, patients, openNew 
       </div>
 
       {/* Calendar */}
-      <div className="bg-card border border-border rounded-xl overflow-hidden shadow-xs p-2 sm:p-4">
+      <div ref={calendarContainerRef} className="bg-card border border-border rounded-xl overflow-hidden shadow-xs p-2 sm:p-4">
         <Calendar
           localizer={localizer}
           events={events}
           startAccessor="start"
           endAccessor="end"
           view={view}
-          onView={setView}
+          onView={handleViewChange}
           date={date}
           onNavigate={setDate}
+          onDrillDown={handleDrillDown}
           selectable
           onSelectSlot={handleSelectSlot}
           onSelectEvent={handleSelectEvent}

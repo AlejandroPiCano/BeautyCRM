@@ -161,6 +161,41 @@
   @apply text-xs text-muted-foreground;
 }
 
+/* Make time slots selectable */
+.rbc-day-slot .rbc-time-slot {
+  cursor: pointer;
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0.1);
+}
+
+.rbc-day-slot .rbc-time-slot:hover {
+  @apply bg-accent/50;
+}
+
+.rbc-day-slot .rbc-time-slot:active {
+  @apply bg-accent;
+}
+
+.rbc-time-slot.rbc-now {
+  @apply bg-primary/5;
+}
+
+/* Make the entire day slot area clickable */
+.rbc-day-slot {
+  touch-action: manipulation;
+}
+
+.rbc-time-column {
+  touch-action: manipulation;
+}
+
+/* Improve mobile touch targets */
+@media (max-width: 640px) {
+  .rbc-time-slot {
+    min-height: 40px;
+  }
+}
+
 /* Mobile responsive improvements */
 @media (max-width: 640px) {
   .rbc-toolbar {
