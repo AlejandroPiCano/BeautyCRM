@@ -5,6 +5,7 @@ import { Header } from "@/components/layout/header";
 import { DashboardStats } from "@/components/dashboard/dashboard-stats";
 import { RecentPatients } from "@/components/dashboard/recent-patients";
 import { StatsSkeleton, RecentSkeleton } from "@/components/dashboard/skeletons";
+import { DashboardChatbot } from "@/components/dashboard/chatbot";
 
 export const metadata: Metadata = { title: "Dashboard" };
 
@@ -26,6 +27,7 @@ export default async function DashboardPage() {
             <QuickActions />
           </div>
         </div>
+        <DashboardChatbot />
       </div>
     </>
   );
