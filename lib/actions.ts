@@ -19,6 +19,7 @@ import {
   tipoTratamientoSchema,
   staffSchema,
 } from "@/lib/validations";
+import { sendWebhook, buildCitaWebhookPayload } from "@/lib/webhook";
 
 // ─── Pacientes ────────────────────────────────────────────────────────────────
 export async function createPaciente(formData: unknown) {
@@ -120,6 +121,58 @@ export async function createCita(formData: unknown) {
       tipoTratamientoId: rest.tipoTratamientoId ?? null,
     })
     .returning();
+
+  if (!newCita) {
+    return { error: { general: ["Error al crear la cita"] } };
+  }
+
+  // Fetch complete data for webhook
+  const paciente = await db.query.pacientes.findFirst({
+    where: eq(pacientes.id, rest.pacienteId),
+  });
+
+  const staff = rest.staffId
+    ? await db.query.users.findFirst({
+        where: eq(users.id, rest.staffId),
+      })
+    : null;
+
+  const tipoTratamiento = rest.tipoTratamientoId
+    ? await db.query.tiposTratamiento.findFirst({
+        where: eq(tiposTratamiento.id, rest.tipoTratamientoId),
+      })
+    : null;
+
+  // Send webhook to n8n
+  if (paciente) {
+    const payload = buildCitaWebhookPayload(
+      "cita_creada",
+      {
+        id: newCita.id,
+        fecha: newCita.fecha,
+        duracionMin: newCita.duracionMin,
+        tipo: newCita.tipo,
+        status: newCita.status,
+        notas: newCita.notas,
+      },
+      {
+        id: paciente.id,
+        nombre: paciente.nombre,
+        email: paciente.email,
+        telefono: paciente.telefono,
+      },
+      staff
+        ? {
+            id: staff.id,
+            name: staff.name,
+            email: staff.email,
+          }
+        : null,
+      tipoTratamiento
+    );
+
+    void sendWebhook(payload);
+  }
 
   revalidatePath("/schedule");
   return { data: newCita };
