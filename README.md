@@ -342,6 +342,10 @@ Configura Nginx como reverse proxy y SSL con Let's Encrypt.
 ![Agenda](./docs/screenshots/agenda.jpg)
 *Calendario interactivo con vistas múltiples y gestión de citas*
 
+### Historia Clínica
+![Historia Clínica](./docs/screenshots/historia_clinica.jpg)
+*Registro detallado de tratamientos y evolución del paciente*
+
 ### Nueva Cita
 ![Nueva Cita](./docs/screenshots/nueva_cita.jpg)
 *Formulario intuitivo para agendar citas*
