@@ -6,10 +6,10 @@
 CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
 
 -- ─── Enums ────────────────────────────────────────────────────────────────────
-CREATE TYPE origen_enum AS ENUM ('web', 'redes_sociales', 'google', 'conocido', 'otro');
-CREATE TYPE cita_status_enum AS ENUM ('pendiente', 'confirmada', 'cancelada', 'completada');
-CREATE TYPE cita_tipo_enum AS ENUM ('consulta', 'tratamiento', 'revision', 'otro');
-CREATE TYPE staff_rol_enum AS ENUM ('admin', 'medico', 'esteticista', 'recepcion');
+CREATE TYPE origen_contacto AS ENUM ('web', 'redes_sociales', 'google', 'conocido', 'otro');
+CREATE TYPE cita_status AS ENUM ('pendiente', 'confirmada', 'cancelada', 'completada');
+CREATE TYPE cita_tipo AS ENUM ('consulta', 'tratamiento', 'revision', 'otro');
+CREATE TYPE staff_rol AS ENUM ('admin', 'medico', 'esteticista', 'recepcion');
 
 -- ─── NextAuth Tables ──────────────────────────────────────────────────────────
 CREATE TABLE IF NOT EXISTS users (
@@ -19,7 +19,7 @@ CREATE TABLE IF NOT EXISTS users (
   email_verified TIMESTAMPTZ,
   image          TEXT,
   password_hash  TEXT,
-  rol            staff_rol_enum NOT NULL DEFAULT 'recepcion',
+  rol            staff_rol NOT NULL DEFAULT 'recepcion',
   activo         BOOLEAN NOT NULL DEFAULT TRUE,
   created_at     TIMESTAMPTZ NOT NULL DEFAULT NOW(),
   updated_at     TIMESTAMPTZ NOT NULL DEFAULT NOW()
@@ -62,7 +62,7 @@ CREATE TABLE IF NOT EXISTS pacientes (
   email            TEXT,
   telefono         TEXT,
   fecha_nacimiento DATE,
-  origen           origen_enum NOT NULL DEFAULT 'otro',
+  origen           origen_contacto NOT NULL DEFAULT 'otro',
   avatar_url       TEXT,
   notas            TEXT,
   activo           BOOLEAN NOT NULL DEFAULT TRUE,
@@ -93,8 +93,8 @@ CREATE TABLE IF NOT EXISTS citas (
   tipo_tratamiento_id  UUID REFERENCES tipos_tratamiento(id),
   fecha                TIMESTAMPTZ NOT NULL,
   duracion_min         INTEGER NOT NULL DEFAULT 60,
-  tipo                 cita_tipo_enum NOT NULL DEFAULT 'consulta',
-  status               cita_status_enum NOT NULL DEFAULT 'pendiente',
+  tipo                 cita_tipo NOT NULL DEFAULT 'consulta',
+  status               cita_status NOT NULL DEFAULT 'pendiente',
   notas                TEXT,
   created_at           TIMESTAMPTZ NOT NULL DEFAULT NOW(),
   updated_at           TIMESTAMPTZ NOT NULL DEFAULT NOW()
