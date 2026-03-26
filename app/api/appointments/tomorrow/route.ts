@@ -6,6 +6,14 @@ import { and, gte, lt, eq } from "drizzle-orm";
 export const dynamic = "force-dynamic";
 
 export async function GET(req: NextRequest) {
+  // Simple API key authentication for n8n
+  const apiKey = req.headers.get("x-api-key");
+  const validApiKey = process.env.INTERNAL_API_KEY;
+
+  if (!validApiKey || apiKey !== validApiKey) {
+    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  }
+
   try {
     // Calculate date range for tomorrow
     const tomorrow = new Date();
