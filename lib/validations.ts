@@ -18,7 +18,7 @@ export const registerSchema = z
     path: ["confirmPassword"],
   });
 
-// ─── Pacientes ────────────────────────────────────────────────────────────────
+// ─── Patients ────────────────────────────────────────────────────────────────
 export const origenValues = [
   "web",
   "redes_sociales",
@@ -30,10 +30,19 @@ export const origenValues = [
 // English alias
 export const sourceValues = origenValues;
 
+// Regex for Spanish phone numbers: 9 digits starting with 6, 7, 8, or 9 (mobile/landline)
+// Accepted formats: 612345678, +34 612 345 678, 612 345 678, etc.
+const spanishPhoneRegex = /^(?:(?:\+34)?[ -]?)?(?:[6-9]\d{2}[ -]?\d{3}[ -]?\d{3}|[6-9]\d{8})$/;
+
 export const pacienteSchema = z.object({
   nombre: z.string().min(2, "Nombre requerido"),
   email: z.string().email("Email inválido").optional().or(z.literal("")),
-  telefono: z.string().optional(),
+  telefono: z.string()
+    .refine((val) => !val || spanishPhoneRegex.test(val.replace(/\s/g, "")), {
+      message: "Teléfono español inválido (ej: 612 345 678)",
+    })
+    .optional()
+    .or(z.literal("")),
   fechaNacimiento: z.string().optional(),
   origen: z.enum(origenValues).default("otro"),
   avatarUrl: z.string().url().optional().or(z.literal("")),
@@ -47,7 +56,7 @@ export type PacienteFormData = z.infer<typeof pacienteSchema>;
 // English alias
 export type PatientFormData = PacienteFormData;
 
-// ─── Citas ────────────────────────────────────────────────────────────────────
+// ─── Dates ────────────────────────────────────────────────────────────────────
 export const citaStatusValues = [
   "pendiente",
   "confirmada",
@@ -129,7 +138,7 @@ export type HistoriaFormData = z.infer<typeof historiaSchema>;
 // English alias
 export type MedicalRecordFormData = HistoriaFormData;
 
-// ─── Tipo Tratamiento ─────────────────────────────────────────────────────────
+// ─── Treatment Type ─────────────────────────────────────────────────────────
 export const tipoTratamientoSchema = z.object({
   nombre: z.string().min(2, "Nombre requerido"),
   descripcion: z.string().optional(),

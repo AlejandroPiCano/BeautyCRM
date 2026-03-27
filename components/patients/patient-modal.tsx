@@ -118,11 +118,18 @@ export function PatientModal({ open, patient, onClose, onSubmit }: Props) {
                 type="email"
                 autoComplete="email"
                 aria-invalid={!!errors.email}
+                aria-describedby={errors.email ? "p-email-error" : undefined}
+                placeholder="example@example.com"
                 className={cn(
                   "w-full rounded-lg border bg-background px-3.5 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-ring",
                   errors.email ? "border-destructive" : "border-input"
                 )}
               />
+              {errors.email && (
+                <p id="p-email-error" role="alert" className="text-xs text-destructive">
+                  {errors.email.message}
+                </p>
+              )}
             </div>
             <div className="space-y-1.5">
               <label htmlFor="p-telefono" className="text-sm font-medium text-foreground">
@@ -133,8 +140,19 @@ export function PatientModal({ open, patient, onClose, onSubmit }: Props) {
                 id="p-telefono"
                 type="tel"
                 autoComplete="tel"
-                className="w-full rounded-lg border border-input bg-background px-3.5 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-ring"
+                aria-invalid={!!errors.telefono}
+                aria-describedby={errors.telefono ? "p-telefono-error" : undefined}
+                placeholder="612 345 678"
+                className={cn(
+                  "w-full rounded-lg border bg-background px-3.5 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-ring",
+                  errors.telefono ? "border-destructive" : "border-input"
+                )}
               />
+              {errors.telefono && (
+                <p id="p-telefono-error" role="alert" className="text-xs text-destructive">
+                  {errors.telefono.message}
+                </p>
+              )}
             </div>
           </div>
 
@@ -148,8 +166,19 @@ export function PatientModal({ open, patient, onClose, onSubmit }: Props) {
                 {...register("fechaNacimiento")}
                 id="p-nacimiento"
                 type="date"
-                className="w-full rounded-lg border border-input bg-background px-3.5 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-ring"
+                lang="es"
+                aria-invalid={!!errors.fechaNacimiento}
+                aria-describedby={errors.fechaNacimiento ? "p-nacimiento-error" : undefined}
+                className={cn(
+                  "w-full rounded-lg border bg-background px-3.5 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-ring",
+                  errors.fechaNacimiento ? "border-destructive" : "border-input"
+                )}
               />
+              {errors.fechaNacimiento && (
+                <p id="p-nacimiento-error" role="alert" className="text-xs text-destructive">
+                  {errors.fechaNacimiento.message}
+                </p>
+              )}
             </div>
             <div className="space-y-1.5">
               <label htmlFor="p-origen" className="text-sm font-medium text-foreground">
