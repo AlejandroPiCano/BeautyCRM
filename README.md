@@ -24,6 +24,7 @@ Integración con n8n para workflows automáticos:
 - **Agenda visual**: Calendario interactivo con vistas mensual/semanal/diaria
 - **Historias clínicas**: Registro estructurado de tratamientos, evolución y fotografías
 - **Multi-usuario**: Sistema de roles (admin, médico, esteticista, recepción)
+- **Tema claro/oscuro**: Cambio dinámico entre modo claro y oscuro con persistencia de preferencia
 
 ## Stack tecnológico
 
