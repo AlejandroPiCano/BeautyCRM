@@ -10,6 +10,10 @@
     "build": "tsx lib/db/migrate.ts && next build",
     "start": "next start",
     "lint": "next lint",
+    "test": "vitest",
+    "test:run": "vitest run",
+    "test:ci": "vitest run --reporter=verbose",
+    "test:coverage": "vitest run --coverage",
     "db:push": "drizzle-kit push",
     "db:studio": "drizzle-kit studio",
     "db:generate": "drizzle-kit generate",
@@ -55,18 +59,24 @@
   },
   "devDependencies": {
     "@tailwindcss/typography": "^0.5.16",
+    "@testing-library/jest-dom": "^6.9.1",
+    "@testing-library/react": "^16.3.2",
     "@types/bcryptjs": "^2.4.6",
     "@types/node": "^22.10.2",
     "@types/react": "^19.0.2",
     "@types/react-big-calendar": "^1.8.12",
     "@types/react-dom": "^19.0.2",
+    "@vitejs/plugin-react": "^6.0.1",
+    "@vitest/coverage-v8": "^4.1.2",
     "autoprefixer": "^10.4.20",
     "drizzle-kit": "^0.30.1",
     "eslint": "^9.17.0",
     "eslint-config-next": "^15.2.3",
+    "happy-dom": "^20.8.9",
     "postcss": "^8.4.49",
     "tailwindcss": "^3.4.17",
     "tsx": "^4.19.2",
-    "typescript": "^5.7.2"
+    "typescript": "^5.7.2",
+    "vitest": "^4.1.2"
   }
 }
