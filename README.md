@@ -388,6 +388,10 @@ scripts/
 ![Dashboard](./docs/screenshots/dashboard.jpg)
 *Vista principal con métricas en tiempo real y chatbot conversacional integrado*
 
+### Análisis Clínico con IA
+<img src="./docs/screenshots/analisis_clinico_ia.jpg" alt="Análisis Clínico IA"/>
+*Análisis fotográfico automatizado con score de efectividad y recomendaciones generado por GPT-4o Vision*
+
 ### Gestión de Pacientes
 ![Pacientes](./docs/screenshots/pacientes.jpg)
 *Lista de pacientes con búsqueda y acceso rápido a historiales*
@@ -404,10 +408,7 @@ scripts/
 ![Nueva Cita](./docs/screenshots/nueva_cita.jpg)
 *Formulario intuitivo para agendar citas*
 
-### Análisis Clínico con IA
-<img src="./docs/screenshots/analisis_clinico_ia.jpg" alt="Análisis Clínico IA" width="100%" style="max-height: 450px; object-fit: contain;" />
 
-*Análisis fotográfico automatizado con score de efectividad y recomendaciones generado por GPT-4o Vision*
 
 ### Asistente IA en Acción
 ![Chatbot](./docs/screenshots/chatbot.jpg)
