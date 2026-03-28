@@ -5,7 +5,8 @@ import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { toast } from "sonner";
-import { Plus, ChevronDown, ChevronUp, X } from "lucide-react";
+import { Plus, ChevronDown, ChevronUp, X, Camera } from "lucide-react";
+import { PhotoAnalyzer } from "@/components/medical-records/photo-analyzer";
 import { medicalRecordSchema } from "@/lib/validations";
 import type { MedicalRecordFormData } from "@/lib/validations";
 import type { MedicalRecord, MedicalRecordPhoto } from "@/lib/db/schema";
@@ -25,6 +26,7 @@ export function MedicalRecordClient({ patientId, patientName, medicalRecords, ph
   const [showForm, setShowForm] = useState(false);
   const [editingRecord, setEditingRecord] = useState<MedicalRecord | null>(null);
   const [expandedId, setExpandedId] = useState<string | null>(medicalRecords[0]?.id ?? null);
+  const [showPhotoAnalyzer, setShowPhotoAnalyzer] = useState(false);
 
   const {
     register, handleSubmit, reset,
@@ -73,15 +75,58 @@ export function MedicalRecordClient({ patientId, patientName, medicalRecords, ph
 
   return (
     <div className="space-y-4">
-      {/* New Record button */}
+      {/* Action bar */}
       {!showForm && (
-        <button
-          onClick={() => { setEditingRecord(null); reset({ pacienteId: patientId, fecha: format(new Date(), "yyyy-MM-dd") }); setShowForm(true); }}
-          className="flex items-center gap-2 rounded-lg bg-primary text-primary-foreground px-4 py-2 text-sm font-medium hover:bg-primary/90 transition-colors"
-        >
-          <Plus className="w-4 h-4" aria-hidden="true" />
-          Nueva entrada
-        </button>
+        <div className="flex items-center gap-2 flex-wrap">
+          <button
+            onClick={() => { setEditingRecord(null); reset({ pacienteId: patientId, fecha: format(new Date(), "yyyy-MM-dd") }); setShowForm(true); }}
+            className="flex items-center gap-2 rounded-lg bg-primary text-primary-foreground px-4 py-2 text-sm font-medium hover:bg-primary/90 transition-colors"
+          >
+            <Plus className="w-4 h-4" aria-hidden="true" />
+            Nueva entrada
+          </button>
+          <button
+            onClick={() => setShowPhotoAnalyzer((v) => !v)}
+            className={`flex items-center gap-2 rounded-lg px-4 py-2 text-sm font-medium border transition-colors ${
+              showPhotoAnalyzer
+                ? "bg-violet-600 text-white border-violet-600 hover:bg-violet-700"
+                : "bg-background border-border text-foreground hover:bg-accent"
+            }`}
+          >
+            <Camera className="w-4 h-4" aria-hidden="true" />
+            Análisis Fotográfico IA
+            {showPhotoAnalyzer ? (
+              <ChevronUp className="w-3.5 h-3.5" aria-hidden="true" />
+            ) : (
+              <ChevronDown className="w-3.5 h-3.5" aria-hidden="true" />
+            )}
+          </button>
+        </div>
+      )}
+
+      {/* Photo Analyzer panel */}
+      {showPhotoAnalyzer && !showForm && (
+        <div className="bg-card border border-violet-200 dark:border-violet-800/40 rounded-xl p-5 shadow-xs">
+          <div className="flex items-center justify-between mb-4">
+            <div>
+              <h3 className="font-semibold text-foreground text-sm">Análisis Fotográfico IA</h3>
+              <p className="text-xs text-muted-foreground mt-0.5">
+                Sube fotos antes/después para generar un análisis clínico automático
+              </p>
+            </div>
+            <button
+              type="button"
+              onClick={() => setShowPhotoAnalyzer(false)}
+              aria-label="Cerrar analizador"
+              className="rounded-lg p-1.5 text-muted-foreground hover:text-foreground hover:bg-accent transition-colors"
+            >
+              <X className="w-4 h-4" aria-hidden="true" />
+            </button>
+          </div>
+          <PhotoAnalyzer
+            treatment={patientName}
+          />
+        </div>
       )}
 
       {/* Form */}
