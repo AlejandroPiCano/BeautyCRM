@@ -483,4 +483,19 @@ Next.js 15 • React 19 • TypeScript 5.7 • PostgreSQL 16 • Drizzle ORM •
 
 ---
 
-**Licencia:** MIT
+## Licencia
+
+Este proyecto está licenciado bajo **Creative Commons Attribution-NonCommercial 4.0 International (CC BY-NC 4.0)**.
+
+[![CC BY-NC 4.0][cc-by-nc-shield]][cc-by-nc]
+
+[cc-by-nc]: https://creativecommons.org/licenses/by-nc/4.0/
+[cc-by-nc-shield]: https://img.shields.io/badge/License-CC%20BY--NC%204.0-lightgrey.svg
+
+**Resumen:**
+- ✅ **Atribución (BY)** — Debes dar crédito al autor original
+- ❌ **No Comercial (NC)** — No puedes usar este proyecto para fines comerciales
+
+Para uso comercial, contacta al autor para obtener una licencia diferente.
+
+Ver el archivo [LICENSE](./LICENSE) para el texto completo.
