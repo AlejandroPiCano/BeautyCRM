@@ -136,7 +136,7 @@ INSERT INTO users (name, email, password_hash, rol)
 VALUES (
   'Administrador',
   'admin@esteticacrm.com',
-  '$2a$12$LQv3c1yqBWVHxkd0LHAkCOYz6TtxMQyCBNh/bX6YtC2X.MaBwlEpy',
+  '$2a$12$QL8bNxjUm4yvBm9J299NlenGNJVwZ5Gsl18lImeValy96tUrBn.bK',
   'admin'
 ) ON CONFLICT (email) DO NOTHING;
 
