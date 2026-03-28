@@ -1,8 +1,18 @@
 # EstéticaCRM
 
-Sistema de gestión integral para clínicas de estética con automatización inteligente y asistente IA en tiempo real.
+Sistema de gestión integral para clínicas de estética con **IA integrada**, automatización inteligente y análisis fotográfico clínico.
 
-## Características principales
+---
+
+## ✨ Features IA destacadas
+
+### 📸 Analizador Fotográfico con IA (OpenAI gpt-4o-mini)
+Comparación visual antes/después con inteligencia artificial clínica, directamente en la historia del paciente:
+- **Slider interactivo** para comparar el antes y el después con precisión pixel a pixel
+- **Análisis automático**: observaciones clínicas, puntuación de efectividad (0–100) y recomendaciones
+- **Informe estructurado** generado por GPT-4o Vision en segundos
+- Rate limiting integrado: 3 análisis por IP/hora para control de costes
+- Imágenes comprimidas en cliente antes del envío (max 256 px, JPEG 0.85)
 
 ### 🤖 Asistente IA integrado (OpenRouter)
 Chatbot conversacional en el dashboard que responde preguntas sobre tu negocio en tiempo real:
@@ -32,7 +42,8 @@ Integración con n8n para workflows automáticos:
 - **UI**: React 19 + TypeScript + Tailwind CSS + shadcn/ui
 - **Autenticación**: NextAuth v5 (Credentials + OAuth)
 - **Base de datos**: PostgreSQL + Drizzle ORM (type-safe queries)
-- **IA**: OpenRouter API (multi-provider: OpenAI, Anthropic, Google, Meta)
+- **IA Chatbot**: OpenRouter API (multi-provider: OpenAI, Anthropic, Google, Meta)
+- **IA Visión**: OpenAI API — gpt-4o-mini (análisis fotográfico clínico)
 - **Automatización**: n8n (workflow automation, self-hosted)
 - **Formularios**: React Hook Form + Zod validation
 - **Calendario**: react-big-calendar + date-fns
@@ -69,13 +80,18 @@ AUTH_GOOGLE_SECRET=tu-google-client-secret
 N8N_WEBHOOK_URL=http://tu-ip-cubepath:5678/webhook/cita-creada
 INTERNAL_API_KEY=genera-con-openssl-rand-hex-32
 
-# OpenRouter (Asistente IA)
+# OpenRouter (Asistente IA — chatbot del dashboard)
 OPENROUTER_API_KEY=sk-or-v1-tu-clave-desde-openrouter-ai
 OPENROUTER_MODEL=google/gemini-2.0-flash-exp:free  # o cualquier modelo compatible
+
+# OpenAI (Analizador Fotográfico IA)
+OPENAI_API_KEY=sk-...tu-clave-desde-platform.openai.com
+OPENAI_VISION_MODEL=gpt-4o-mini  # el más económico con visión ($0.15/M tokens)
 ```
 
 **Obtener claves:**
 - **OpenRouter**: Regístrate en [openrouter.ai](https://openrouter.ai/keys) y genera una API key
+- **OpenAI**: Genera tu clave en [platform.openai.com/api-keys](https://platform.openai.com/api-keys)
 - **n8n**: Instala n8n en tu VPS (ver sección de automatización más abajo)
 
 ### 3. Instalar y configurar PostgreSQL en tu VPS de CubePath
@@ -323,6 +339,7 @@ Configura Nginx como reverse proxy y SSL con Let's Encrypt.
   - **Evolución**: Observaciones, recomendaciones, próxima cita
 - Galería de fotografías (antes/después/progreso)
 - Timeline cronológico de tratamientos
+- **📸 Analizador Fotográfico IA**: Compara antes/después con slider interactivo y obtén un informe clínico automático (score de efectividad, observaciones y recomendaciones) generado por GPT-4o Vision
 
 ### Configuración
 - Gestión de usuarios y roles (admin, médico, esteticista, recepción)
@@ -384,4 +401,4 @@ Este proyecto está bajo licencia MIT. Ver archivo `LICENSE` para más detalles.
 
 ---
 
-**Desarrollado con Next.js 15, React 19, PostgreSQL, n8n y OpenRouter**
+**Desarrollado con Next.js 15, React 19, PostgreSQL, OpenAI Vision, n8n y OpenRouter**
