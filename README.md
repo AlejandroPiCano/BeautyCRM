@@ -404,6 +404,10 @@ scripts/
 ![Nueva Cita](./docs/screenshots/nueva_cita.jpg)
 *Formulario intuitivo para agendar citas*
 
+### Análisis Clínico con IA
+![Análisis Clínico IA](./docs/screenshots/analisis_clinico_ia.jpg)
+*Análisis fotográfico automatizado con score de efectividad y recomendaciones generado por GPT-4o Vision*
+
 ### Asistente IA en Acción
 ![Chatbot](./docs/screenshots/chatbot.jpg)
 *Consultas en tiempo real sobre disponibilidad y estadísticas de la clínica*
