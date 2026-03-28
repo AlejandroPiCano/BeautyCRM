@@ -405,7 +405,8 @@ scripts/
 *Formulario intuitivo para agendar citas*
 
 ### Análisis Clínico con IA
-![Análisis Clínico IA](./docs/screenshots/analisis_clinico_ia.jpg)
+<img src="./docs/screenshots/analisis_clinico_ia.jpg" alt="Análisis Clínico IA" width="100%" />
+
 *Análisis fotográfico automatizado con score de efectividad y recomendaciones generado por GPT-4o Vision*
 
 ### Asistente IA en Acción
