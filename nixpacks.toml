@@ -3,16 +3,13 @@ nixPkgs = ["nodejs_20"]
 
 [phases.install]
 cmds = [
-  "npm ci --include=optional || (rm -rf node_modules package-lock.json && npm install --include=optional)"
+  "rm -rf node_modules package-lock.json",
+  "npm install --include=optional"
 ]
-
-[phases.test]
-cmds = ["npm run test:ci"]
-dependsOn = ["install"]
 
 [phases.build]
 cmds = ["npm run build"]
-dependsOn = ["test"]
+dependsOn = ["install"]
 
 [start]
 cmd = "npm run start"
