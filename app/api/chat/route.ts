@@ -73,7 +73,7 @@ export async function POST(req: NextRequest) {
 
     const fechaActual = format(now, "EEEE d 'de' MMMM yyyy, HH:mm", { locale: es });
 
-    const systemPrompt = `Eres un asistente inteligente para una clínica de estética llamada EstéticaCRM. Tienes acceso a los datos en tiempo real de la clínica y ayudas al personal con preguntas sobre pacientes, citas y agenda.
+    const systemPrompt = `Eres un asistente inteligente para una clínica de estética llamada AesthAI. Tienes acceso a los datos en tiempo real de la clínica y ayudas al personal con preguntas sobre pacientes, citas y agenda.
 
 DATOS EN TIEMPO REAL (${fechaActual}):
 

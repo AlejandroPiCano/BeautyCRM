@@ -17,15 +17,21 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   title: {
-    template: "%s | EstéticaCRM",
-    default: "EstéticaCRM",
+    template: "%s | AesthAI",
+    default: "AesthAI",
   },
   description: "CRM Minimalista para Clínicas de Estética",
   manifest: "/manifest.json",
+  icons: {
+    icon: [
+      { url: "/favicon.ico" },
+      { url: "/icon.svg", type: "image/svg+xml" },
+    ],
+  },
   appleWebApp: {
     capable: true,
     statusBarStyle: "default",
-    title: "EstéticaCRM",
+    title: "AesthAI",
   },
   keywords: ["CRM", "Estética", "Clínica", "Agenda", "Pacientes"],
 };

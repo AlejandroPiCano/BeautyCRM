@@ -91,7 +91,7 @@ export function Sidebar({ mobileOpen, onMobileClose }: { mobileOpen?: boolean; o
         </div>
         {!collapsed && (
           <span className="font-semibold text-white text-sm tracking-tight whitespace-nowrap">
-            EstéticaCRM
+            AesthAI
           </span>
         )}
       </div>

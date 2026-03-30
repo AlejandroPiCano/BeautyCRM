@@ -19,7 +19,7 @@ export default function LoginPage() {
             <Sparkles className="w-4 h-4 text-white" />
           </div>
           <span className="text-white font-semibold text-lg tracking-tight">
-            EstéticaCRM
+            AesthAI
           </span>
         </div>
 
@@ -63,7 +63,7 @@ export default function LoginPage() {
                 <Sparkles className="w-3.5 h-3.5 text-white" />
               </div>
               <span className="font-semibold text-slate-900 dark:text-white">
-                EstéticaCRM
+                AesthAI
               </span>
             </div>
             <h2 className="text-2xl font-bold text-slate-900 dark:text-white">

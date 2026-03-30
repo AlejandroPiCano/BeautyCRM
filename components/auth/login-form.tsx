@@ -133,6 +133,9 @@ export function LoginForm() {
             {errors.password.message}
           </p>
         )}
+        <p className="text-xs text-slate-400 mt-1.5">
+          Acceso de prueba: admin@esteticacrm.com / Admin1234!
+        </p>
       </div>
 
       <button
