@@ -1,4 +1,4 @@
-# EstéticaIACRM 🚀
+# AesthAI 🚀
 
 > **CRM médico de próxima generación con IA dual (análisis fotográfico clínico con IA con OpenAI y chatbot conversacional integrado con OpenRouter), automatización inteligente con N8N, DevOps automatizado y arquitectura cloud-native**
 
