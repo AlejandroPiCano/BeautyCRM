@@ -53,6 +53,25 @@ const baselineExistingDatabase = async (sql: postgres.Sql) => {
   console.log("✅ Baseline complete — existing schema and data preserved");
 };
 
+const seedAdminUser = async (sql: postgres.Sql) => {
+  console.log("🌱 Seeding admin user...");
+  try {
+    await sql`
+      INSERT INTO users (name, email, password_hash, rol)
+      VALUES (
+        'Administrador',
+        'admin@esteticacrm.com',
+        '$2a$12$QL8bNxjUm4yvBm9J299NlenGNJVwZ5Gsl18lImeValy96tUrBn.bK',
+        'admin'
+      )
+      ON CONFLICT (email) DO NOTHING
+    `;
+    console.log("✅ Admin user seeded (admin@esteticacrm.com / Admin1234!)");
+  } catch (err) {
+    console.warn("⚠️  Admin seed failed (may already exist):", err);
+  }
+};
+
 const runMigrations = async () => {
   const connectionString = process.env["DATABASE_URL"];
   if (!connectionString) {
@@ -75,11 +94,13 @@ const runMigrations = async () => {
   try {
     await migrate(db, { migrationsFolder: MIGRATIONS_FOLDER });
     console.log("✅ Migrations applied successfully");
+    await seedAdminUser(sql);
   } catch (err: unknown) {
     const pgErr = err as { code?: string; message?: string };
     if (pgErr?.code === "42P07") {
       // PostgreSQL: relation already exists — DB has tables but no migration history
       await baselineExistingDatabase(sql);
+      await seedAdminUser(sql);
     } else {
       console.error("❌ Migration failed:", pgErr?.message ?? err);
       await sql.end();
